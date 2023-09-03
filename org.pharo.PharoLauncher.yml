@@ -1,0 +1,37 @@
+app-id: org.pharo.PharoLauncher
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+command: pharo-launcher
+finish-args:
+  # Needs to talk to the network:
+  - --share=network
+  # Needs to save files locally
+  - --filesystem=host
+  - --socket=x11
+  - --device=dri
+modules:
+  - name: PharoLauncherZip
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/share/pharo-launcher
+      - mkdir -p /app/share/pharo-vm
+      - mkdir -p /app/share/pixmapsi
+
+      
+      - sed -i 's/ROOT=`dirname "$DIR"`/ROOT=\/app\/share/' pharo-launcher
+      - sed -i 's/LINUX="$ROOT\/bin"/LINUX="$ROOT\/pharo"/' pharo-launcher
+      - sed -i 's/RESOURCES="$ROOT\/shared"/RESOURCES="\/app\/share\/pharo-launcher"/' pharo-launcher
+      - sed -i 's/ICONS="$ROOT\/icons"/ICONS="$ROOT\/pixmaps"/' pharo-launcher
+      
+      - chmod -R 777 pharo-vm
+
+      - install -D pharo-launcher /app/bin/pharo-launcher
+      - cp -fR shared/* /app/share/pharo-launcher/
+      - cp -fR pharo-vm/* /app/share/pharo-vm/
+
+    sources:
+      - type: archive
+        url: https://files.pharo.org/pharo-launcher/3.0.1/PharoLauncher-linux-3.0.1-x64.zip
+        sha256: 4af630ea233faee13cd8eebed2bd14a8f1ce474c8bdbc90a2cce9039bbe23c67
+
