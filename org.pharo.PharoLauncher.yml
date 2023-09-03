@@ -18,6 +18,7 @@ modules:
       - mkdir -p /app/share/pharo-vm
       - mkdir -p /app/share/pixmapsi
       - mkdir -p /app/share/applications
+      - mkdir -p /app/share/icons/hicolor/512x512/apps
 
       
       - sed -i 's/ROOT=`dirname "$DIR"`/ROOT=\/app\/share/' pharo-launcher
@@ -31,6 +32,7 @@ modules:
       - cp -fR shared/* /app/share/pharo-launcher/
       - cp -fR pharo-vm/* /app/share/pharo-vm/
       - cp -f org.pharo.PharoLauncher.desktop /app/share/applications/org.pharo.PharoLauncher.desktop
+      - cp -f pharo-launcher.png /app/share/icons/hicolor/512x512/apps/org.pharo.PharoLauncher.png
 
     sources:
       - type: archive
@@ -38,4 +40,6 @@ modules:
         sha256: 4af630ea233faee13cd8eebed2bd14a8f1ce474c8bdbc90a2cce9039bbe23c67
       - type: file
         path: org.pharo.PharoLauncher.desktop
+      - type: file
+        path: pharo-launcher.png
 
